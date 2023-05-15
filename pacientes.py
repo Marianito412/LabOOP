@@ -61,6 +61,15 @@ b.nombreCompleto="alooo"
 pacientes = [clases.Paciente(), a, b]
 ESReportePaciente(pacientes)
 
+def ESModificarPaciente():
+    cedula=input("Digite a cedula del paciente a agregar anotaciones: ")
+    anotaciones=input("Ingrese las anotaciones: ")
+    funciones.modificarPaciente(cedula,anotaciones)
+
+def modificarEstado(pCedula):
+    ...
+
+
 def ESReportes(pDicc):
     """
     Funcionalidad: Muestra menu de reportes

@@ -6,7 +6,7 @@ def ESModificarPaciente():
     funciones.modificarPaciente(cedula,anotaciones)
 
 def modificarEstado(pCedula):
-    
+    ...
 
 def ESReportes(pDicc):
     """
@@ -44,7 +44,7 @@ def menu():
     Entradas:NA
     Salidas:NA
     """
-    personalidad = archivos.lee("personalidad") or {}
+    personalidad = archivos.lee("personalidad") or []
     ESRegistrarDatos(personalidad)
     while validarBin(input("Desea registrar más personas? (1: sí, 2: no): ")):
         ESRegistrarDatos(personalidad)

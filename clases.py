@@ -1,11 +1,11 @@
 
 class Paciente:
     def __init__(self):
-        cedula=""
-        nombreCompleto=("nombre", "apellido1", "apellido2")
-        correo = ""
-        anotaciones=[]
-        activo = True
+        self.cedula=""
+        self.nombreCompleto=("nombre", "apellido1", "apellido2")
+        self.correo = ""
+        self.anotaciones=[]
+        self.activo = True
     
     def asignarCedula(self,pCedula):
         """

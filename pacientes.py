@@ -1,6 +1,12 @@
 import archivos
 
+def ESModificarPaciente():
+    cedula=input("Digite a cedula del paciente a agregar anotaciones: ")
+    anotaciones=input("Ingrese las anotaciones: ")
+    funciones.modificarPaciente(cedula,anotaciones)
 
+def modificarEstado(pCedula):
+    
 
 def ESReportes(pDicc):
     """

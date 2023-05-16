@@ -52,14 +52,14 @@ def ESReportePaciente(pPacientes):
         print(f"\t{num+1}. {anotacion}")
     print(f"Estado: {paciente.activo}")
 
-a = clases.Paciente()
-a.nombreCompleto="hello"
-a.cedula = "5-0446-0741"
-b= clases.Paciente()
-b.cedula="123"
-b.nombreCompleto="alooo"
-pacientes = [clases.Paciente(), a, b]
-ESReportePaciente(pacientes)
+#a = clases.Paciente()
+#a.nombreCompleto="hello"
+#a.cedula = "5-0446-0741"
+#b= clases.Paciente()
+#b.cedula="123"
+#b.nombreCompleto="alooo"
+#pacientes = [clases.Paciente(), a, b]
+#ESReportePaciente(pacientes)
 
 def ESModificarPaciente():
     cedula=input("Digite a cedula del paciente a agregar anotaciones: ")
@@ -67,8 +67,16 @@ def ESModificarPaciente():
     funciones.modificarPaciente(cedula,anotaciones)
 
 def modificarEstado(pCedula):
-    ...
-
+    cedula=input("Digite a cedula del paciente a agregar anotaciones: ")
+    for paciente in pPacientes:
+        if paciente.mostrarCedula() == pCedula:
+            print(f"El estado actual del paciente es{paciente.mostrarActivo}")
+            if validarBin(input("Esta seguro de querer cambiar el estado?\nIngrese 1 o 2 (1: si, 2: no): "))==True:
+                if paciente.mostrarActivo==True:
+                    paciente.asignarActivo(False)
+                else:
+                    paciente.asignarActivo(True)
+    return pPacientes
 
 def ESReportes(pDicc):
     """
@@ -130,3 +138,5 @@ def menu():
             print("Por favor ingrese un número válido")
         except KeyError:
             print("Opción inválida")
+
+menu()

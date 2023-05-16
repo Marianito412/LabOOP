@@ -1,3 +1,8 @@
+#Elaborado por: Nicole Tatiana Parra Valverde y Mariano Soto
+#Fecha de creacion: 15/05/2023 12:25am
+#Ultima version: 15/05/2023 5:34pm
+#Version: 3.10.6
+
 import archivos
 import funciones
 import clases
@@ -31,9 +36,22 @@ def validarBin(pString: str):
         else:
             pString = input("ERROR: Opción inválida, ingrese 1 o 2 (1: si, 2: no)\nIntente de nuevo: ")
 
+def limpiarNombre(pNombre):
+    return f"{pNombre[0]} {pNombre[1]} {pNombre[2]}"
+
 def ESReporteInactivos(pPacientes):
     for paciente in funciones.filtrarPacientes(pPacientes, filtros=[lambda x: not x.mostrarActivo()]):
-        print(paciente.mostrarNombre())
+        print("_"*100)
+        print(
+            f"Nombre: {limpiarNombre(paciente.mostrarNombre())}\n"
+            f"Correo: {paciente.mostrarCorreo()}"
+            )
+        print("Anotaciones: ")
+        for num, anotacion in enumerate(paciente.mostrarAsignaciones()):
+            print(f"\t{num+1}. {anotacion}")
+        print(f"Estado: {'activo' if paciente.mostrarActivo() else 'inactivo'}")
+        print("_"*100)
+    return pPacientes
 
 def ESReportePaciente(pPacientes):
     cedula = validarCedula(input("Ingrese el número de cédula a buscar: "))
@@ -41,16 +59,17 @@ def ESReportePaciente(pPacientes):
     try:
         paciente : clases.Paciente = next(funciones.filtrarPacientes(pPacientes, filtros=[lambda x: x.cedula==cedula]))
     except StopIteration:
-        print("Paciente no encontrado")
+        print("No es paciente aún")
         return pPacientes
-    
+    print("_"*100)
     print(
-        f"Nombre: {paciente.mostrarNombre()}\n"
+        f"Nombre: {limpiarNombre(paciente.mostrarNombre())}\n"
         f"Correo: {paciente.mostrarCorreo()}")
     print("Anotaciones: ")
     for num, anotacion in enumerate(paciente.mostrarAsignaciones()):
         print(f"\t{num+1}. {anotacion}")
-    print(f"Estado: {paciente.mostrarActivo()}")
+    print(f"Estado: {'activo' if paciente.mostrarActivo() else 'inactivo'}")
+    print("_"*100)
 
 def ESInsertarPacientes(pPacientes):
     cantidad = int(input("Ingrese la cantidad de pacientes a generar: "))
@@ -58,22 +77,25 @@ def ESInsertarPacientes(pPacientes):
     return pPacientes
 
 def ESModificarPaciente(pPacientes):
-    cedula=input("Digite a cedula del paciente a agregar anotaciones: ")
+    cedula = validarCedula(input("Digite a cedula del paciente a agregar anotaciones: "))
     anotaciones=input("Ingrese las anotaciones: ")
-    pPacientes = funciones.modificarPaciente(cedula,anotaciones)
+    pPacientes = funciones.modificarPaciente(pPacientes, cedula, anotaciones)
+    print("La anotación se agregó exitosamente!")
     return pPacientes
 
 def modificarEstado(pPacientes):
-    cedula = validarCedula(input("Digite a cedula del paciente a agregar anotaciones: "))
+    cedula = validarCedula(input("Digite a cedula del paciente a actualizar el estado: "))
     for paciente in pPacientes:
         if paciente.mostrarCedula() == cedula:
-            print(f"El estado actual del paciente es{paciente.mostrarActivo()}")
+            print(f"El estado actual del paciente es {'activo' if paciente.mostrarActivo() else 'inactivo'}")
             if validarBin(input("Esta seguro de querer cambiar el estado?\nIngrese 1 o 2 (1: si, 2: no): "))==True:
                 paciente.asignarActivo(not paciente.mostrarActivo())
-                #if paciente.mostrarActivo() == True:
-                #    paciente.asignarActivo(False)
-                #else:
-                #    paciente.asignarActivo(True)
+                print("Se actualizó el estado exitosamente! ")
+                return pPacientes
+            else:
+                print("Se canceló el cambio!")
+                return pPacientes    
+    print("El paciente no existe!")
     return pPacientes
 
 def SalirReporte(pPacientes):
@@ -100,6 +122,7 @@ def ESReportes(pPacientes):
         try:
             opcion = int(input("Ingrese el número de su opción a elegir: "))
             menuDicc[opcion][1](pPacientes)
+            print("\n")
             if opcion == 3:
                 break
         except ValueError:
@@ -108,24 +131,27 @@ def ESReportes(pPacientes):
             print("Opción inválida")
     return pPacientes
 
+def ESSalir(pPacientes):
+    exit()
+
 def menu():
     """
     Funcionalidad: Muestra menu principal
     Entradas:NA
     Salidas:NA
     """
-    personalidad = archivos.lee("pacientes") or []
-    if personalidad == []:
-        ESInsertarPacientes(personalidad)
+    pacientes = archivos.lee("pacientes") or []
+    if pacientes == []:
+        ESInsertarPacientes(pacientes)
 
-    archivos.graba("pacientes", personalidad)
+    archivos.graba("pacientes", pacientes)
 
     menuDicc = {
         1: ["Registrar Datos", ESInsertarPacientes],
         2: ["Modificar Estado", modificarEstado],
-        3: ["Modificar paciente", ESModificarPaciente],
+        3: ["Agregar anotaciones", ESModificarPaciente],
         4: ["Reportes", ESReportes],
-        5: ["Salir", exit]
+        5: ["Salir", ESSalir]
     }
     
     while True:
@@ -133,11 +159,11 @@ def menu():
             print(f"{key}. {menuDicc[key][0]}")
         try:
             opcion = int(input("Ingrese el número de su opción a elegir: "))
-            personalidad = menuDicc[opcion][1](personalidad)
-            archivos.graba("pacientes", personalidad)
+            pacientes = menuDicc[opcion][1](pacientes)
+            print("\n")
+            archivos.graba("pacientes", pacientes)
         except ValueError:
             print("Por favor ingrese un número válido")
         except KeyError:
             print("Opción inválida")
-
 menu()

@@ -1,3 +1,7 @@
+#Elaborado por: Nicole Tatiana Parra Valverde y Mariano Soto
+#Fecha de creacion: 15/05/2023 12:25am
+#Ultima version: 15/05/2023 5:34pm
+#Version: 3.10.6
 
 class Paciente:
     def __init__(self):

@@ -3,11 +3,13 @@
 #Ultima version: 15/05/2023 5:34pm
 #Version: 3.10.6
 
+#Importación de bibliotecas
 import archivos
 import funciones
 import clases
 import re
 
+#Definición de funciones
 def validarCedula(pCedula: str):
     """
     Funcionalidad: valida una cédula contra regex
@@ -99,6 +101,13 @@ def modificarEstado(pPacientes):
     return pPacientes
 
 def SalirReporte(pPacientes):
+    """
+    Funcionalidad: Muestra mensaje para regresar al menú principal
+    Entradas:
+    -pPacientes: Lista de pacientes luego de uso en menú de reportes
+    Salidas:
+    -pPacientes: Lista de pacientes luego de uso en menú de reportes
+    """
     print("Regresando a menu principal...")
     return pPacientes
 
@@ -132,6 +141,12 @@ def ESReportes(pPacientes):
     return pPacientes
 
 def ESSalir(pPacientes):
+    """
+    Funcionalidad: LLama a exit (se creó por restricciones de la estructuda, se necesita que la función reciba pPacientes)
+    Entradas:
+    -pPacientes: Argumento forzado por estructura del menú
+    Salidas:NA
+    """
     exit()
 
 def menu():
@@ -166,4 +181,6 @@ def menu():
             print("Por favor ingrese un número válido")
         except KeyError:
             print("Opción inválida")
+
+#Programa principal
 menu()

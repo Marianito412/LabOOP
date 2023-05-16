@@ -60,6 +60,7 @@ def ESReporteInactivos(pPacientes):
         print("_"*100)
         print(
             f"Nombre: {limpiarNombre(paciente.mostrarNombre())}\n"
+            f"Cédula : {paciente.mostrarCedula()}\n"
             f"Correo: {paciente.mostrarCorreo()}"
             )
         print("Anotaciones: ")
@@ -143,6 +144,29 @@ def modificarEstado(pPacientes):
     print("El paciente no existe!")
     return pPacientes
 
+def ESReporteCompleto(pPacientes):
+    """
+    Funcionalidad: Muestra todos los pacientes del sistema
+    Entradas: 
+    -pPacientes(list): Pacientes en el sistema
+    Salidas:
+    -pPacientes(list): La lista de pacientes
+    """
+    for paciente in pPacientes:
+        print("_"*100)
+        print(
+            f"Nombre: {limpiarNombre(paciente.mostrarNombre())}\n"
+            f"Cédula : {paciente.mostrarCedula()}\n"
+            f"Correo: {paciente.mostrarCorreo()}"
+            )
+        print("Anotaciones: ")
+        for num, anotacion in enumerate(paciente.mostrarAsignaciones()):
+            print(f"\t{num+1}. {anotacion}")
+        print(f"Estado: {'activo' if paciente.mostrarActivo() else 'inactivo'}")
+        print("_"*100)
+    return pPacientes
+
+
 def SalirReporte(pPacientes):
     """
     Funcionalidad: Muestra mensaje para regresar al menú principal
@@ -166,7 +190,8 @@ def ESReportes(pPacientes):
 
         1: ["Pacientes inactivos", ESReporteInactivos],
         2: ["Reporte de paciente", ESReportePaciente],
-        3: ["Salir a menu", SalirReporte]
+        3: ["Reporte completo", ESReporteCompleto],
+        4: ["Salir a menu", SalirReporte]
     }
     while True:
         for key in menuDicc:
@@ -175,7 +200,7 @@ def ESReportes(pPacientes):
             opcion = int(input("Ingrese el número de su opción a elegir: "))
             menuDicc[opcion][1](pPacientes)
             print("\n")
-            if opcion == 3:
+            if opcion == 4:
                 break
         except ValueError:
             print("Por favor ingrese un número válido")

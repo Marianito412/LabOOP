@@ -33,7 +33,7 @@ def validarBin(pString: str):
 
 def ESReporteInactivos(pPacientes):
     for paciente in funciones.filtrarPacientes(pPacientes, filtros=[lambda x: x.cedula=="123"]):
-        print(paciente.nombreCompleto)
+        print(paciente.mostrarNombre())
 
 def ESReportePaciente(pPacientes):
     cedula = validarCedula(input("Ingrese el número de cédula a buscar: "))
@@ -45,21 +45,21 @@ def ESReportePaciente(pPacientes):
         return pPacientes
     
     print(
-        f"Nombre: {paciente.nombreCompleto}\n"
-        f"Correo: {paciente.correo}")
+        f"Nombre: {paciente.mostrarNombre()}\n"
+        f"Correo: {paciente.mostrarCorreo()}")
     print("Anotaciones: ")
-    for num, anotacion in enumerate(paciente.anotaciones):
+    for num, anotacion in enumerate(paciente.mostrarAsignaciones()):
         print(f"\t{num+1}. {anotacion}")
-    print(f"Estado: {paciente.activo}")
+    print(f"Estado: {paciente.mostrarActivo()}")
 
-a = clases.Paciente()
-a.nombreCompleto="hello"
-a.cedula = "5-0446-0741"
-b= clases.Paciente()
-b.cedula="123"
-b.nombreCompleto="alooo"
-pacientes = [clases.Paciente(), a, b]
-ESReportePaciente(pacientes)
+#a = clases.Paciente()
+#a.nombreCompleto="hello"
+#a.cedula = "5-0446-0741"
+#b= clases.Paciente()
+#b.cedula="123"
+#b.nombreCompleto="alooo"
+#pacientes = [clases.Paciente(), a, b]
+#ESReportePaciente(pacientes)
 
 def ESModificarPaciente():
     cedula=input("Digite a cedula del paciente a agregar anotaciones: ")
@@ -69,8 +69,11 @@ def ESModificarPaciente():
 def modificarEstado(pCedula):
     ...
 
+def SalirReporte(pPacientes):
+    print("Regresando a menu principal...")
+    return pPacientes
 
-def ESReportes(pDicc):
+def ESReportes(pPacientes):
     """
     Funcionalidad: Muestra menu de reportes
     Entradas:
@@ -81,24 +84,22 @@ def ESReportes(pDicc):
     menuDicc = {
 
         1: ["Pacientes inactivos", ESReporteInactivos],
-        2: ["Por categoría", ESPorCategorias],
-        3: ["Por persona", ESReportePersona],
-        4: ["Reporte total", ESReporteTotal],
-        5: ["Salir a menu", SalirReporte]
+        2: ["Reporte de paciente", ESReportePaciente],
+        3: ["Salir a menu", SalirReporte]
     }
     while True:
         for key in menuDicc:
             print(f"{key}. {menuDicc[key][0]}")
         try:
             opcion = int(input("Ingrese el número de su opción a elegir: "))
-            menuDicc[opcion][1](pDicc)
-            if opcion == 5:
+            menuDicc[opcion][1](pPacientes)
+            if opcion == 3:
                 break
         except ValueError:
             print("Por favor ingrese un número válido")
         except KeyError:
             print("Opción inválida")
-    return pDicc
+    return pPacientes
 
 def menu():
     """
@@ -130,3 +131,5 @@ def menu():
             print("Por favor ingrese un número válido")
         except KeyError:
             print("Opción inválida")
+
+menu()

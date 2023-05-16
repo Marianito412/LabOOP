@@ -37,9 +37,23 @@ def validarBin(pString: str):
             pString = input("ERROR: Opción inválida, ingrese 1 o 2 (1: si, 2: no)\nIntente de nuevo: ")
 
 def limpiarNombre(pNombre):
+    """
+    Funcionalidad: Saca el nombre de la tupla
+    Entradas:
+    -pNombre(tuple): tupla que contiene el nombre y los apellidos
+    Salida:
+    -return(str): string con el nombre y los apellidos 
+    """
     return f"{pNombre[0]} {pNombre[1]} {pNombre[2]}"
 
 def ESReporteInactivos(pPacientes):
+    """
+    Funcionalidad: Llama a las funciones necesarias para mostrar el reporte de pacientes inactivos
+    Entradas:
+    -pPacientes(list): Contiene a los pacientes
+    Salida:
+    return(list):  Lista de pacientes
+    """
     for paciente in funciones.filtrarPacientes(pPacientes, filtros=[lambda x: not x.mostrarActivo()]):
         print("_"*100)
         print(
@@ -54,6 +68,13 @@ def ESReporteInactivos(pPacientes):
     return pPacientes
 
 def ESReportePaciente(pPacientes):
+    """
+    Funcionalidad: Muestra la informacion de un solo paciente
+    Entradas:
+    -pPacientes(list): Contiene a los pacientes
+    Salida:
+    return(list):  Lista de pacientes
+    """
     cedula = validarCedula(input("Ingrese el número de cédula a buscar: "))
     
     try:
@@ -70,13 +91,28 @@ def ESReportePaciente(pPacientes):
         print(f"\t{num+1}. {anotacion}")
     print(f"Estado: {'activo' if paciente.mostrarActivo() else 'inactivo'}")
     print("_"*100)
+    return pPacientes
 
 def ESInsertarPacientes(pPacientes):
+    """
+    Funcionalidad: Pide la cantidad de pacientes y llama a la funcion insertarPacientes
+    Entradas:
+    -pPacientes(list): lista de pacientes
+    Salida:
+    return(list):  Lista de pacientes
+    """
     cantidad = int(input("Ingrese la cantidad de pacientes a generar: "))
     pPacientes = funciones.insertarPacientes(pPacientes, cantidad)
     return pPacientes
 
 def ESModificarPaciente(pPacientes):
+    """
+    Funcionalidad: Llama a las funciones necesarias para agregarle reportes a un paciente en especifico
+    Entradas:
+    -pPacientes(list): Contiene a los pacientes
+    Salida:
+    return(list):  Lista de pacientes
+    """
     cedula = validarCedula(input("Digite a cedula del paciente a agregar anotaciones: "))
     anotaciones=input("Ingrese las anotaciones: ")
     pPacientes = funciones.modificarPaciente(pPacientes, cedula, anotaciones)
@@ -84,6 +120,13 @@ def ESModificarPaciente(pPacientes):
     return pPacientes
 
 def modificarEstado(pPacientes):
+    """
+    Funcionalidad: Llama a las funciones necesarias para modificar el estado actual de un paciente
+    Entradas:
+    -pPacientes(list): Contiene a los pacientes
+    Salida:
+    return(list):  Lista de pacientes
+    """
     cedula = validarCedula(input("Digite a cedula del paciente a actualizar el estado: "))
     for paciente in pPacientes:
         if paciente.mostrarCedula() == cedula:
